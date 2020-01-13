@@ -20,8 +20,10 @@
 
     <Button
         android:id="@+id/contact_police"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Contact Police" />
+        android:layout_width="@android:dimen/thumbnail_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Contact Police"
+        android:background="@drawable/rounded_button"/>
 
 </LinearLayout>
