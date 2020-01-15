@@ -14,7 +14,10 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/crime_title_label"/>
+            android:text="@string/crime_title_label"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/crime_title"
@@ -26,7 +29,10 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/crime_details_label"/>
+            android:text="@string/crime_details_label"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/crime_date"
@@ -38,6 +44,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/crime_solved_label"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/first_crime_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:text="First"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/last_crime_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:text="Last"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
 
     </LinearLayout>
 
