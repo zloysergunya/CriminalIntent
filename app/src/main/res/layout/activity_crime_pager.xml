@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.viewpager.widget.ViewPager
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/crime_view_pager"
+<FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.viewpager.widget.ViewPager>
+    <Button
+        android:text="First"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_crime_button"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:text="Last"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/last_crime_button"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"/>
+
+    <androidx.viewpager.widget.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/crime_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+    </androidx.viewpager.widget.ViewPager>
+</FrameLayout>
