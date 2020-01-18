@@ -8,7 +8,6 @@ public class Crime {
     private UUID mId;
     private String mTitle;
     private Date mDate;
-    private Date mTime;
     private boolean mSolved;
     private boolean mRequiresPolice;
 
@@ -51,13 +50,5 @@ public class Crime {
 
     public void setRequiresPolice(boolean requiresPolice) {
         mRequiresPolice = requiresPolice;
-    }
-
-    public Date getTime() {
-        return mTime;
-    }
-
-    public void setTime(Date time) {
-        this.mTime = time;
     }
 }

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class CrimeListFragment extends Fragment {
 
@@ -81,10 +82,10 @@ public class CrimeListFragment extends Fragment {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
 
-            DateFormat dateFormat = new SimpleDateFormat(CrimeFragment.DATE_FORMAT);
-            DateFormat timeFormat = new SimpleDateFormat(CrimeFragment.TIME_FORMAT);
+            DateFormat dateFormat = new SimpleDateFormat(CrimeFragment.DATE_FORMAT, Locale.getDefault());
+            DateFormat timeFormat = new SimpleDateFormat(CrimeFragment.TIME_FORMAT, Locale.getDefault());
             mDateTextView.setText(dateFormat.format(mCrime.getDate()));
-//            mDateTextView.setText(timeFormat.format(mCrime.getDate()));
+            mTimeTextView.setText(timeFormat.format(mCrime.getDate()));
 
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
 
