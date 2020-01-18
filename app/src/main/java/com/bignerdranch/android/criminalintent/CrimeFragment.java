@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
 
-    public static final String DATE_FORMAT = "EEE MMM dd yyyy";
+    public static final String DATE_FORMAT = "E, dd.MM.yy";
     public static final String TIME_FORMAT = "hh:mm";
 
     private static final String ARG_CRIME_ID = "crime_id";
