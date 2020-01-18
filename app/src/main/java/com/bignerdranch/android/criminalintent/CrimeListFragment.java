@@ -62,6 +62,7 @@ public class CrimeListFragment extends Fragment {
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private TextView mTimeTextView;
         private ImageView mSolvedImageView;
         private Crime mCrime;
         private Button mContactPoliceButton;
@@ -72,6 +73,7 @@ public class CrimeListFragment extends Fragment {
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
+            mTimeTextView = (TextView) itemView.findViewById(R.id.crime_time);
             mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
         }
 
@@ -79,8 +81,10 @@ public class CrimeListFragment extends Fragment {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
 
-            DateFormat dateFormat = new SimpleDateFormat("EEEE',' MMM dd',' yyyy");
+            DateFormat dateFormat = new SimpleDateFormat(CrimeFragment.DATE_FORMAT);
+            DateFormat timeFormat = new SimpleDateFormat(CrimeFragment.TIME_FORMAT);
             mDateTextView.setText(dateFormat.format(mCrime.getDate()));
+//            mDateTextView.setText(timeFormat.format(mCrime.getDate()));
 
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
 
