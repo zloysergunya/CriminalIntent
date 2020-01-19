@@ -56,6 +56,7 @@ public class CrimePagerActivity extends AppCompatActivity {
                 return mCrimes.size();
             }
         });
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener () {
 
             @Override
