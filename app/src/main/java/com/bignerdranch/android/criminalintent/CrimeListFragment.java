@@ -31,6 +31,8 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
     private int mLastUpdatedPosition = -1;
     private boolean mSubtitleVisible;
+    private View mLayout;
+    private Button mAddFirstCrimeButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -45,6 +47,18 @@ public class CrimeListFragment extends Fragment {
 
         mCrimeRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mLayout = view.findViewById(R.id.add_crime_view);
+        mAddFirstCrimeButton = view.findViewById(R.id.add_crime);
+        mAddFirstCrimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Crime crime = new Crime();
+                CrimeLab.get(getActivity()).addCrime(crime);
+                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
+                startActivity(intent);
+            }
+        });
 
         if (savedInstanceState != null){
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
@@ -128,6 +142,7 @@ public class CrimeListFragment extends Fragment {
         }
 
         updateSubtitle();
+        mLayout.setVisibility(crimes.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
