@@ -25,13 +25,14 @@ public class CrimeLab {
         mCrimesList = new ArrayList<>();
     }
 
-    public void addCrime(Crime c){
-        mCrimesList.add(c);
-        mCrimesHashMap.put(c.getId(), c);
+    public void addCrime(Crime crime){
+        mCrimesList.add(crime);
+        mCrimesHashMap.put(crime.getId(), crime);
     }
 
-    public void deleteCrime(Crime c){
-        mCrimesList.remove(c);
+    public void deleteCrime(Crime crime){
+        mCrimesList.remove(crime);
+        mCrimesHashMap.remove(crime.getId());
     }
 
     public List<Crime> getCrimes() {
