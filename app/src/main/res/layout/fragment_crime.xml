@@ -38,18 +38,43 @@
         <Button
             android:id="@+id/crime_date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_button"/>
 
         <Button
             android:id="@+id/crime_time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_button"/>
 
         <CheckBox
             android:id="@+id/crime_solved"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/crime_solved_label"/>
+
+        <Button
+            android:id="@+id/crime_suspect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crime_suspect_text"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_button"/>
+        <Button
+            android:id="@+id/crime_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crime_report_text"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_button"/>
+
 
     </LinearLayout>
 
