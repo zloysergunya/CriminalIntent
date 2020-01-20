@@ -10,15 +10,12 @@ import com.bignerdranch.android.criminalintent.database.CrimeCursorWrapper;
 import com.bignerdranch.android.criminalintent.database.CrimeDbSchema.CrimeTable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class CrimeLab {
 
     private static CrimeLab sCrimeLab;
-//    private HashMap<UUID, Crime> mCrimesHashMap;
-//    private List<Crime> mCrimesList;
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
@@ -40,8 +37,10 @@ public class CrimeLab {
     }
 
     public void deleteCrime(Crime crime){
-//        mCrimesList.remove(crime);
-//        mCrimesHashMap.remove(crime.getId());
+        String uuidString = crime.getId().toString();
+        mDatabase.delete(CrimeTable.NAME,
+                CrimeTable.Cols.UUID + " = ?",
+                new String[] { uuidString });
     }
 
     public List<Crime> getCrimes() {
