@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/first_crime_button"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:background="@drawable/rounded_button"
         android:textColor="@android:color/white"/>
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/last_crime_button"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:background="@drawable/rounded_button"
         android:textColor="@android:color/white"/>
 

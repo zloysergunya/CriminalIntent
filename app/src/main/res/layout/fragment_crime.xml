@@ -10,21 +10,51 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp">
 
-        <TextView
-            style="?android:listSeparatorTextViewStyle"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/crime_title_label"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/crime_photo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerInside"
+                    android:cropToPadding="true"
+                    android:background="@android:color/darker_gray"/>
 
-        <EditText
-            android:id="@+id/crime_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/crime_title_hint"
-            android:inputType="text|textCapSentences"/>
+                <ImageButton
+                    android:id="@+id/crime_camera"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_camera"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <TextView
+                    style="?android:listSeparatorTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/crime_title_label"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="4dp"/>
+
+                <EditText
+                    android:id="@+id/crime_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/crime_title_hint"
+                    android:inputType="text|textCapSentences"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
