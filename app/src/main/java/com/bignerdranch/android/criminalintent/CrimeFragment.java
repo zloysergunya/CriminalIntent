@@ -179,7 +179,7 @@ public class CrimeFragment extends Fragment {
         });
 
         if (mCrime.getSuspect() != null) {
-            mSuspectButton.setText(mCrime.getSuspect());
+            mSuspectButton.setText("Suspect: " + mCrime.getSuspect());
         }
 
         final PackageManager packageManager = getActivity().getPackageManager();
