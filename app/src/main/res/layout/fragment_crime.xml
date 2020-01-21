@@ -42,7 +42,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/rounded_button"/>
+            android:background="@color/colorAccent"/>
 
         <Button
             android:id="@+id/crime_time"
@@ -50,13 +50,21 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textColor="@color/colorWhite"
-            android:background="@drawable/rounded_button"/>
+            android:background="@color/colorAccent"/>
 
         <CheckBox
             android:id="@+id/crime_solved"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:text="@string/crime_solved_label"/>
+
+        <CheckBox
+            android:id="@+id/crime_serious"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@string/crime_serious_label"/>
 
         <Button
             android:id="@+id/crime_suspect"

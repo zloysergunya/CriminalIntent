@@ -9,7 +9,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
-    private boolean mRequiresPolice;
+    private boolean mSerious;
     private String mSuspect;
 
     public Crime () {
@@ -49,12 +49,12 @@ public class Crime {
         mSolved = solved;
     }
 
-    public boolean isRequiresPolice() {
-        return mRequiresPolice;
+    public boolean isSerious() {
+        return mSerious;
     }
 
-    public void setRequiresPolice(boolean requiresPolice) {
-        mRequiresPolice = requiresPolice;
+    public void setSerious(boolean serious) {
+        mSerious = serious;
     }
 
     public String getSuspect() {

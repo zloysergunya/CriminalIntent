@@ -48,6 +48,7 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private Button mTimeButton;
     private CheckBox mSolvedCheckBox;
+    private CheckBox mSeriousCrimeCheckBox;
     private Button mReportButton;
     private Button mSuspectButton;
 
@@ -128,6 +129,15 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mCrime.setSolved(isChecked);
+            }
+        });
+
+        mSeriousCrimeCheckBox = (CheckBox) v.findViewById(R.id.crime_serious);
+        mSeriousCrimeCheckBox.setChecked(mCrime.isSerious());
+        mSeriousCrimeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mCrime.setSerious(isChecked);
             }
         });
 

@@ -176,7 +176,7 @@ public class CrimeListFragment extends Fragment {
 
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
 
-            if (mCrime.isRequiresPolice()) {
+            if (mCrime.isSerious()) {
                 mContactPoliceButton = (Button) itemView.findViewById(R.id.contact_police);
                 mContactPoliceButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -226,7 +226,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (mCrimes.get(position).isRequiresPolice()) {
+            if (mCrimes.get(position).isSerious()) {
                 return R.layout.list_item_crime_police;
             } else {
                 return R.layout.list_item_crime;

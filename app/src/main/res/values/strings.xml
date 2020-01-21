@@ -5,6 +5,7 @@
     <string name="crime_title_label">Title</string>
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
+    <string name="crime_serious_label">Serious Crime</string>
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>
     <string name="new_crime">New Crime</string>
@@ -22,7 +23,7 @@
     <string name="crime_report_solved">The case is solved</string>
     <string name="crime_report_unsolved">The case is not solved</string>
     <string name="crime_report_no_suspect">there is no suspect.</string>
-    <string name="crime_report_suspect">The suspect is %s.</string>
+    <string name="crime_report_suspect">the suspect is %s.</string>
     <string name="crime_report_subject">Criminal Intent Crime Report</string>
     <string name="send_report">Send crime report via</string>
 </resources>
