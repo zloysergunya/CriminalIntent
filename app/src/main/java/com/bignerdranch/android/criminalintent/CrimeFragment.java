@@ -61,7 +61,6 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSeriousCrimeCheckBox;
     private Button mSuspectButton;
     private Button mReportButton;
-    private ImageButton mPhotoButton;
     private ImageView mPhotoView;
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -188,34 +187,26 @@ public class CrimeFragment extends Fragment {
             mSuspectButton.setEnabled(false);
         }
 
-        mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        boolean canTakePhoto = mPhotoFile != null &&
-                captureImage.resolveActivity(packageManager) != null;
-        mPhotoButton.setEnabled(canTakePhoto);
+        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
 
-        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+        mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = FileProvider.getUriForFile(getActivity(),
-                        "com.bignerdranch.android.criminalintent.fileprovider",
-                        mPhotoFile);
+                Uri uri = FileProvider.getUriForFile(getActivity(), "com.bignerdranch.android.criminalintent.fileprovider", mPhotoFile);
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 List<ResolveInfo> cameraActivities = getActivity()
-                        .getPackageManager().queryIntentActivities(captureImage,
-                                packageManager.MATCH_DEFAULT_ONLY);
+                        .getPackageManager().queryIntentActivities(captureImage, packageManager.MATCH_DEFAULT_ONLY);
 
                 for (ResolveInfo activity : cameraActivities) {
-                    getActivity().grantUriPermission(activity.activityInfo.packageName,
-                            uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    getActivity().grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO);
             }
         });
-
-        mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
 
         updatePhotoView();
 

@@ -13,24 +13,20 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp">
                 <ImageView
                     android:id="@+id/crime_photo"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="120dp"
                     android:scaleType="centerInside"
                     android:cropToPadding="true"
                     android:background="@android:color/darker_gray"/>
-
-                <ImageButton
-                    android:id="@+id/crime_camera"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_camera"/>
             </LinearLayout>
 
             <LinearLayout
@@ -45,15 +41,15 @@
                     android:text="@string/crime_title_label"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="4dp"/>
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:id="@+id/crime_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/crime_title_hint"
-                    android:inputType="text|textCapSentences"/>
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines="3"/>
             </LinearLayout>
         </LinearLayout>
 
