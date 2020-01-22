@@ -49,8 +49,8 @@ public class CrimeFragment extends Fragment {
 
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
-    private static final int REQUEST_CONTACT = 1;
-    public static final int  REQUEST_PHOTO = 2;
+    private static final int REQUEST_CONTACT = 2;
+    public static final int  REQUEST_PHOTO = 3;
 
     private Crime mCrime;
     private File mPhotoFile;
@@ -245,47 +245,48 @@ public class CrimeFragment extends Fragment {
             return;
         }
 
-        if (requestCode == REQUEST_CONTACT && data != null) {
-            Uri contactUri = data.getData();
-            String[] queryFields = new String[]{
-                    ContactsContract.Contacts.DISPLAY_NAME
-            };
+        switch (requestCode) {
+            case REQUEST_DATE:
+                Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+                mCrime.setDate(date);
+                updateDate();
+                break;
 
-            Cursor c = getActivity().getContentResolver()
-                    .query(contactUri, queryFields, null, null, null);
-            try {
-                if (c.getCount() == 0) {
-                    return;
+            case REQUEST_TIME:
+                Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+                mCrime.setDate(time);
+                updateTime();
+                break;
+            case REQUEST_CONTACT:
+                if (data != null) {
+                    Uri contactUri = data.getData();
+                    String[] queryFields = new String[]{
+                            ContactsContract.Contacts.DISPLAY_NAME
+                    };
+
+                    Cursor c = getActivity().getContentResolver()
+                            .query(contactUri, queryFields, null, null, null);
+                    try {
+                        if (c.getCount() == 0) {
+                            return;
+                        }
+                        c.moveToFirst();
+                        String suspect = c.getString(0);
+                        mCrime.setSuspect(suspect);
+                        mSuspectButton.setText("Suspect: " + suspect);
+                    } finally {
+                        c.close();
+                    }
                 }
-                c.moveToFirst();
-                String suspect = c.getString(0);
-                mCrime.setSuspect(suspect);
-                mSuspectButton.setText("Suspect: " + suspect);
-            } finally {
-                c.close();
-            }
-        } else {
-            switch (requestCode) {
-                case REQUEST_DATE:
-                    Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-                    mCrime.setDate(date);
-                    updateDate();
-                    break;
-
-                case REQUEST_TIME:
-                    Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-                    mCrime.setDate(time);
-                    updateTime();
-                    break;
-                case REQUEST_PHOTO:
-                    Uri uri = FileProvider.getUriForFile(getActivity(),
-                            "com.bignerdranch.android.criminalintent.fileprovider",
-                            mPhotoFile);
-                    getActivity().revokeUriPermission(uri,
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                    updatePhotoView();
-                    break;
-            }
+                break;
+            case REQUEST_PHOTO:
+                Uri uri = FileProvider.getUriForFile(getActivity(),
+                        "com.bignerdranch.android.criminalintent.fileprovider",
+                        mPhotoFile);
+                getActivity().revokeUriPermission(uri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                updatePhotoView();
+                break;
         }
     }
 

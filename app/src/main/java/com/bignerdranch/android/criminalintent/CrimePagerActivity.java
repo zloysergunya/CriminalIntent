@@ -29,7 +29,7 @@ public class CrimePagerActivity extends AppCompatActivity {
     public static Intent newIntent(Context packageContext, UUID crimeId) {
         Intent intent = new Intent(packageContext, CrimePagerActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeId);
-        return  intent;
+        return intent;
     }
 
     @Override
@@ -98,6 +98,7 @@ public class CrimePagerActivity extends AppCompatActivity {
                 mViewPager.setCurrentItem(0);
             }
         });
+
         mLastCrimeButton = (Button) findViewById(R.id.last_crime_button);
         mLastCrimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
