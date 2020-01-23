@@ -110,7 +110,8 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
@@ -201,7 +202,8 @@ public class CrimeFragment extends Fragment {
         });
 
         if (mCrime.getSuspect() != null) {
-            mSuspectButton.setText("Suspect: " + mCrime.getSuspect());
+            mSuspectButton.setText(getResources().getString(R.string.date_label) + " "
+                    + mCrime.getSuspect());
         }
 
         final PackageManager packageManager = getActivity().getPackageManager();
@@ -212,19 +214,24 @@ public class CrimeFragment extends Fragment {
 
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
+        boolean canTakePhoto = mPhotoFile != null
+                && captureImage.resolveActivity(packageManager) != null;
 
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
         mPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = FileProvider.getUriForFile(getActivity(), "com.bignerdranch.android.criminalintent.fileprovider", mPhotoFile);
+                Uri uri = FileProvider.getUriForFile(getActivity(),
+                        "com.bignerdranch.android.criminalintent.fileprovider",
+                        mPhotoFile);
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 List<ResolveInfo> cameraActivities = getActivity()
-                        .getPackageManager().queryIntentActivities(captureImage, packageManager.MATCH_DEFAULT_ONLY);
+                        .getPackageManager()
+                        .queryIntentActivities(captureImage, packageManager.MATCH_DEFAULT_ONLY);
 
                 for (ResolveInfo activity : cameraActivities) {
-                    getActivity().grantUriPermission(activity.activityInfo.packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    getActivity().grantUriPermission(activity.activityInfo.packageName,
+                            uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO);
@@ -289,7 +296,11 @@ public class CrimeFragment extends Fragment {
                     };
 
                     Cursor c = getActivity().getContentResolver()
-                            .query(contactUri, queryFields, null, null, null);
+                            .query(contactUri,
+                                    queryFields,
+                                    null,
+                                    null,
+                                    null);
                     try {
                         if (c.getCount() == 0) {
                             return;
@@ -298,7 +309,8 @@ public class CrimeFragment extends Fragment {
                         String suspect = c.getString(0);
                         mCrime.setSuspect(suspect);
                         updateCrime();
-                        mSuspectButton.setText("Suspect: " + suspect);
+                        mSuspectButton.setText(getResources().getString(R.string.suspect_label)
+                                + " " + suspect);
                     } finally {
                         c.close();
                     }
@@ -323,12 +335,14 @@ public class CrimeFragment extends Fragment {
 
     private void updateDate() {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        mDateButton.setText("Date: " + dateFormat.format(mCrime.getDate()));
+        mDateButton.setText(getResources().getString(R.string.date_label) + " "
+                + dateFormat.format(mCrime.getDate()));
     }
 
     private void updateTime() {
         DateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT, Locale.getDefault());
-        mTimeButton.setText("Time: " + timeFormat.format(mCrime.getDate()));
+        mTimeButton.setText(getResources().getString(R.string.time_label) + " "
+                + timeFormat.format(mCrime.getDate()));
     }
 
     private String getCrimeReport() {

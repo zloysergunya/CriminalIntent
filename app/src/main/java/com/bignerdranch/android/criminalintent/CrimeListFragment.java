@@ -119,7 +119,6 @@ public class CrimeListFragment extends Fragment {
             case R.id.new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                updateUI();
                 mCallBacks.onCrimeSelected(crime);
                 return true;
             case R.id.show_subtitle:

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Преступная цель</string>
 
-    <string name="crime_title_hint">Введите заголовок для преступления.</string>
+    <string name="crime_title_hint">Введите заголовок для преступления</string>
     <string name="crime_title_label">Заголовок</string>
     <string name="crime_details_label">Подробности</string>
     <string name="crime_solved_label">Раскрыто</string>
@@ -17,6 +17,8 @@
     <string name="date_label">Дата:</string>
     <string name="time_label">Время:</string>
     <string name="suspect_label">Подозреваемый:</string>
+    <string name="first_button">В начало</string>
+    <string name="last_button">В конец</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$d преступление</item>
         <item quantity="few">%1$d преступления</item>

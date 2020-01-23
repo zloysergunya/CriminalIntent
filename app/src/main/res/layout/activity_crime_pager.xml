@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Button
-        android:text="First"
+        android:text="@string/first_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/first_crime_button"
@@ -15,7 +15,7 @@
         android:textColor="@android:color/white"/>
 
     <Button
-        android:text="Last"
+        android:text="@string/last_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/last_crime_button"
