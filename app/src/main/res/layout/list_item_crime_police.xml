@@ -58,7 +58,7 @@
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
-        android:text="Contact Police"
+        android:text="@string/contact_police_button"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
