@@ -27,6 +27,7 @@ import android.widget.ImageView;
 
 import androidx.core.app.ShareCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -46,11 +47,12 @@ public class CrimeFragment extends Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
+    private static final String DIALOG_PHOTO = "DialogPhoto";
 
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
     private static final int REQUEST_CONTACT = 2;
-    public static final int  REQUEST_PHOTO = 3;
+    private static final int REQUEST_PHOTO = 3;
 
     private Crime mCrime;
     private File mPhotoFile;
@@ -205,6 +207,15 @@ public class CrimeFragment extends Fragment {
                 }
 
                 startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
+        mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                PhotoViewerFragment dialog = PhotoViewerFragment.newInstance(mPhotoFile);
+                dialog.show(manager, DIALOG_PHOTO);
+                return true;
             }
         });
 
