@@ -2,8 +2,14 @@ package com.bignerdranch.android.criminalintent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +33,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
+
+import static android.content.ContentValues.TAG;
+import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE;
 
 public class CrimeListFragment extends Fragment {
 
@@ -36,15 +49,21 @@ public class CrimeListFragment extends Fragment {
     private View mLayout;
     private Button mAddFirstCrimeButton;
     private Callbacks mCallBacks;
+    private OnDeleteCrimeListener mDeleteCallback;
 
     public interface Callbacks {
         void onCrimeSelected(Crime crime);
+    }
+
+    public interface OnDeleteCrimeListener {
+        void onCrimeIdSelected(UUID crimeId);
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mCallBacks = (Callbacks) context;
+        mDeleteCallback = (OnDeleteCrimeListener) context;
     }
 
     @Override
@@ -60,6 +79,7 @@ public class CrimeListFragment extends Fragment {
 
         mCrimeRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        setCrimeRecyclerViewItemTouchListener();
 
         mLayout = view.findViewById(R.id.add_crime_view);
         mAddFirstCrimeButton = view.findViewById(R.id.add_crime);
@@ -81,6 +101,57 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
+    private void setCrimeRecyclerViewItemTouchListener() {
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Crime crime= mAdapter.mCrimes.get(position);
+                Log.d(TAG, "onSwiped: " + crime.getId());
+                mDeleteCallback.onCrimeIdSelected(crime.getId());
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                View itemView = viewHolder.itemView;
+                Drawable deleteIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_menu_delete_crime);
+                float iconHeight = deleteIcon.getIntrinsicHeight();
+                float iconWidth = deleteIcon.getIntrinsicWidth();
+                float itemHeight = itemView.getBottom() - itemView.getTop();
+
+                if (actionState == ACTION_STATE_SWIPE) {
+                    Log.d(TAG, "ACTION STATE SWAP is true: ");
+
+                    int deleteIconTop = (int) (itemView.getTop() + (itemHeight - iconHeight) / 2);
+                    int deleteIconBottom = (int) (deleteIconTop + iconHeight);
+                    int deleteIconMargin = (int) ((itemHeight - iconHeight) / 2);
+                    int deleteIconLeft = (int)(itemView.getRight() - deleteIconMargin - iconWidth);
+                    int deleteIconRight = (int) itemView.getRight() - deleteIconMargin;
+
+                    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                    // ниже нужно что-то сделать с размером layout
+                    RectF layout = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    paint.setColor(getResources().getColor(android.R.color.holo_red_light));
+                    c.drawRect(layout, paint);
+
+                    deleteIcon.setBounds(deleteIconLeft,deleteIconTop,deleteIconRight,deleteIconBottom);
+                    deleteIcon.draw(c);
+                    getDefaultUIUtil().onDraw(c, recyclerView, viewHolder.itemView, dX, dY, actionState, isCurrentlyActive);
+                } else {
+                    Log.d(TAG, "ACTION STATE SWAP is false: ");
+                }
+                itemView.clearAnimation();
+            }
+        };
+        ItemTouchHelper iteItemTouchHelper = new ItemTouchHelper(itemTouchCallback);
+        iteItemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -98,6 +169,7 @@ public class CrimeListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mCallBacks = null;
+        mDeleteCallback = null;
     }
 
     @Override
@@ -161,6 +233,11 @@ public class CrimeListFragment extends Fragment {
         }
         updateSubtitle();
         mLayout.setVisibility(crimes.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
+    public void deleteCrime(UUID crimeId) {
+        Crime crime = CrimeLab.get(getActivity()).getCrime(crimeId);
+        CrimeLab.get(getActivity()).deleteCrime(crime);
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
