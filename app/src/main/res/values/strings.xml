@@ -19,6 +19,12 @@
     <string name="suspect_label">Suspect:</string>
     <string name="first_button">First</string>
     <string name="last_button">Last</string>
+    <string name="crime_photo_no_image_description">
+        Crime scene photo (not set)
+    </string>
+    <string name="crime_photo_image_description">Crime scene photo (set)</string>
+    <string name="delete_message">Crime is deleted</string>
+    <string name="undo_button">Undo</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$d crime</item>
         <item quantity="other">%1$d crimes</item>

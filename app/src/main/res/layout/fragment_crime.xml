@@ -21,7 +21,9 @@
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/circle"/>
+                android:background="@drawable/circle"
+                android:contentDescription="@string/crime_photo_no_image_description"
+                android:focusable="true"/>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -44,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/crime_title_hint"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="3"/>
+                    android:maxLines="3"
+                    android:labelFor="@+id/crime_title"/>
             </LinearLayout>
         </LinearLayout>
 

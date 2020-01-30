@@ -52,7 +52,9 @@ public class CrimeLab {
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                crimes.add(cursor.getCrime());
+                if (!cursor.getCrime().isDeleted()) {
+                    crimes.add(cursor.getCrime());
+                }
                 cursor.moveToNext();
             }
         } finally {
@@ -92,6 +94,7 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
         values.put(CrimeTable.Cols.SERIOUS, crime.isSerious() ? 1 : 0);
         values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
+        values.put(CrimeTable.Cols.DELETED, crime.isDeleted() ? 1 : 0);
         return values;
     }
 

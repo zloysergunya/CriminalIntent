@@ -11,6 +11,7 @@ public class Crime {
     private boolean mSolved;
     private boolean mSerious;
     private String mSuspect;
+    private boolean mDeleted;
 
     public Crime () {
         this(UUID.randomUUID());
@@ -63,6 +64,14 @@ public class Crime {
 
     public void setSuspect(String suspect) {
         mSuspect = suspect;
+    }
+
+    public boolean isDeleted() {
+        return mDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        mDeleted = deleted;
     }
 
     public String getPhotoFilename() {

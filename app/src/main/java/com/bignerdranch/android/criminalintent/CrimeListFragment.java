@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,16 +20,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +55,7 @@ public class CrimeListFragment extends Fragment {
     private Button mAddFirstCrimeButton;
     private Callbacks mCallBacks;
     private OnDeleteCrimeListener mDeleteCallback;
+    private CoordinatorLayout mCoordinatorLayout;
 
     public interface Callbacks {
         void onCrimeSelected(Crime crime);
@@ -81,6 +87,7 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setCrimeRecyclerViewItemTouchListener();
 
+        mCoordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinatorLayout);
         mLayout = view.findViewById(R.id.add_crime_view);
         mAddFirstCrimeButton = view.findViewById(R.id.add_crime);
         mAddFirstCrimeButton.setOnClickListener(new View.OnClickListener() {
@@ -102,24 +109,63 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void setCrimeRecyclerViewItemTouchListener() {
-        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+        ItemTouchHelper.SimpleCallback itemTouchCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                Crime crime= mAdapter.mCrimes.get(position);
+                final int position = viewHolder.getAdapterPosition();
+                final Crime crime = mAdapter.mCrimes.get(position);
                 Log.d(TAG, "onSwiped: " + crime.getId());
-                mDeleteCallback.onCrimeIdSelected(crime.getId());
+                crime.setDeleted(true);
+                CrimeLab.get(getActivity()).updateCrime(crime);
+                updateUI();
+                Snackbar snackbar = Snackbar
+                        .make(mCoordinatorLayout,getResources().getString(R.string.delete_message),
+                                Snackbar.LENGTH_SHORT)
+                        .setAction(getResources().getString(R.string.undo_button),
+                                new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                crime.setDeleted(false);
+                                CrimeLab.get(getActivity()).updateCrime(crime);
+                                mAdapter.mCrimes.add(position, crime);
+                                mAdapter.notifyItemInserted(position);
+                                updateUI();
+                            }
+                        }).setCallback(new Snackbar.Callback(){
+                            @Override
+                            public void onDismissed(Snackbar snackbar1, int dismissType) {
+                                super.onDismissed(snackbar1, dismissType);
+                                if(dismissType == DISMISS_EVENT_TIMEOUT || dismissType == DISMISS_EVENT_SWIPE
+                                        || dismissType == DISMISS_EVENT_CONSECUTIVE || dismissType == DISMISS_EVENT_MANUAL) {
+                                    mDeleteCallback.onCrimeIdSelected(crime.getId());
+                                }
+                            }
+                        });
+                snackbar.show();
             }
 
             @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(@NonNull Canvas c,
+                                    @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    float dX,
+                                    float dY,
+                                    int actionState,
+                                    boolean isCurrentlyActive) {
+
                 View itemView = viewHolder.itemView;
-                Drawable deleteIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_menu_delete_crime);
+
+                Drawable deleteIcon =
+                        ContextCompat.getDrawable(getContext(), R.drawable.ic_menu_delete_crime);
                 float iconHeight = deleteIcon.getIntrinsicHeight();
                 float iconWidth = deleteIcon.getIntrinsicWidth();
                 float itemHeight = itemView.getBottom() - itemView.getTop();
@@ -135,21 +181,27 @@ public class CrimeListFragment extends Fragment {
 
                     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                     // ниже нужно что-то сделать с размером layout
-                    RectF layout = new RectF(itemView.getLeft(), itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                    paint.setColor(getResources().getColor(android.R.color.holo_red_light));
-                    c.drawRect(layout, paint);
+                    RectF layout = new RectF(itemView.getRight() + dX,
+                            itemView.getTop(),
+                            itemView.getRight(),
+                            itemView.getBottom());
 
-                    deleteIcon.setBounds(deleteIconLeft,deleteIconTop,deleteIconRight,deleteIconBottom);
+                    paint.setColor(Color.parseColor("#f44336"));
+                    c.drawRect(layout, paint);
+                    deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight,
+                            deleteIconBottom);
                     deleteIcon.draw(c);
-                    getDefaultUIUtil().onDraw(c, recyclerView, viewHolder.itemView, dX, dY, actionState, isCurrentlyActive);
+                    getDefaultUIUtil().onDraw(c, recyclerView, viewHolder.itemView, dX, dY,
+                            actionState, isCurrentlyActive);
                 } else {
                     Log.d(TAG, "ACTION STATE SWAP is false: ");
                 }
                 itemView.clearAnimation();
             }
         };
-        ItemTouchHelper iteItemTouchHelper = new ItemTouchHelper(itemTouchCallback);
-        iteItemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
     }
 
     @Override
@@ -263,8 +315,10 @@ public class CrimeListFragment extends Fragment {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
 
-            DateFormat dateFormat = new SimpleDateFormat(CrimeFragment.DATE_FORMAT, Locale.getDefault());
-            DateFormat timeFormat = new SimpleDateFormat(CrimeFragment.TIME_FORMAT, Locale.getDefault());
+            DateFormat dateFormat =
+                    new SimpleDateFormat(CrimeFragment.DATE_FORMAT, Locale.getDefault());
+            DateFormat timeFormat =
+                    new SimpleDateFormat(CrimeFragment.TIME_FORMAT, Locale.getDefault());
             mDateTextView.setText(dateFormat.format(mCrime.getDate()));
             mTimeTextView.setText(timeFormat.format(mCrime.getDate()));
 
